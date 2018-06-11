@@ -11,7 +11,7 @@ class RetrofitClientInstance {
         fun getRetrofitInstance() : Retrofit{
 
                 var retrofit  : Retrofit = Retrofit.Builder()
-                        .baseUrl("https://jsonplaceholder.typicode.com").addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl("https://api.themoviedb.org/").addConverterFactory(GsonConverterFactory.create())
                         .build()
 
             return retrofit
