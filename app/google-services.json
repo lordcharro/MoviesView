@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "960770123749",
+    "firebase_url": "https://moviesview-d87c4.firebaseio.com",
+    "project_id": "moviesview-d87c4",
+    "storage_bucket": "moviesview-d87c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960770123749:android:db7e882a45ef824b",
+        "android_client_info": {
+          "package_name": "com.charroapps.moviesview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960770123749-3lk84josgnb4bpeehkj626uc5buqhi2l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.charroapps.moviesview",
+            "certificate_hash": "2a6409f7a3600ed9a5a67aae374c6b13f60af1a3"
+          }
+        },
+        {
+          "client_id": "960770123749-mpt83hkubl8b6hel5jp1r5g96th6i24i.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "960770123749-mpt83hkubl8b6hel5jp1r5g96th6i24i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdqgSI2Q8FhtyIpu-QTYHU9zM3zTsBYmk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960770123749-mpt83hkubl8b6hel5jp1r5g96th6i24i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
