@@ -12,12 +12,12 @@ import com.charroapps.moviesview.R
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 
-class MovieAdapter (val context : Context, val movies: List<Movies>) : RecyclerView.Adapter<MovieAdapter.MovieHolder>(){
+class MovieAdapter (val context : Context, val movies: List<Movies>, val itemClick : (Movies) -> Unit) : RecyclerView.Adapter<MovieAdapter.MovieHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
 
         val view = LayoutInflater.from(context).inflate(R.layout.movie_list_item, parent, false)
-        return MovieHolder(view)
+        return MovieHolder(view, itemClick)
     }
 
     override fun getItemCount(): Int {
@@ -29,7 +29,7 @@ class MovieAdapter (val context : Context, val movies: List<Movies>) : RecyclerV
         holder?.bindMovie(movies[position], context)
     }
 
-    inner class MovieHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    inner class MovieHolder(itemView: View?, val itemClick: (Movies) -> Unit) : RecyclerView.ViewHolder(itemView) {
 
         val movieImage =itemView?.findViewById<ImageView>(R.id.movieImg)
         val movieName = itemView?.findViewById<TextView>(R.id.movieTitleTxt)
@@ -46,6 +46,9 @@ class MovieAdapter (val context : Context, val movies: List<Movies>) : RecyclerV
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background)
                     .into(movieImage)
+
+            //Get the itemClick for each row
+            itemView.setOnClickListener { itemClick(movie) }
         }
     }
 }
