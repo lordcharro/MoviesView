@@ -37,7 +37,6 @@ class MovieAdapter (val context : Context, val movies: List<Movies>) : RecyclerV
         fun bindMovie(movie: Movies, context: Context){
 
             if (movieName != null) {
-               // movieName.setText(movies.get(adapterPosition).getMyTitle())
                 movieName.setText(movies.get(adapterPosition).title)
             }
 
