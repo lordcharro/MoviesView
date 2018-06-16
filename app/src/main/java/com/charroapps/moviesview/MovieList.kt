@@ -18,6 +18,7 @@ import com.charroapps.moviesview.Models.Movies
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import android.view.Menu
+import com.charroapps.moviesview.Utilities.EXTRA_MOVIE
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -72,7 +73,12 @@ class MovieList : AppCompatActivity() {
     /*Method to generate List of data using RecyclerView with custom adapter*/
     private fun generateDataList(movieList: List<Movies>) {
 
-        adapter = MovieAdapter(this, movieList)
+        adapter = MovieAdapter(this, movieList){movies ->
+            //A item in the list was clicked, lets pass to the next activity and pass the info as a parcel
+            val mdetailIntent = Intent(this@MovieList, DetailActivity::class.java)
+            mdetailIntent.putExtra(EXTRA_MOVIE, movies)
+            startActivity(mdetailIntent)
+        }
         val layoutManager = LinearLayoutManager(this@MovieList)
         movieRecView.setLayoutManager(layoutManager)
         movieRecView.setAdapter(adapter)
