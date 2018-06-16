@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import android.content.Intent
-import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -13,6 +12,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.auth.FirebaseUser
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -38,9 +38,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        //Set a listener for the login Button
         sign_in_button.setOnClickListener(this@LoginActivity)
-        sign_in_button.setOnClickListener(this@LoginActivity)
-        disconnect_button.setOnClickListener(this@LoginActivity)
+
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -69,38 +69,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             firebaseAuthWithGoogle(account)
         } catch (e: ApiException) {
             // Google Sign In failed, update UI appropriately
-            Log.w("TAG2", "Google sign in failed")
+            Toast.makeText(this@LoginActivity, "Google sign in failed", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     fun signIn() {
         val signInIntent = mGoogleSignInClient.getSignInIntent()
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    private fun signOut() {
-        // sign out Firebase
-        mAuth.signOut()
-
-        // sign out Google
-        mGoogleSignInClient.signOut().addOnCompleteListener(this
-        ) { updateUI(null) }
-    }
-
-
-    private fun revokeAccess() {
-        // sign out Firebase
-        mAuth.signOut()
-
-        // revoke access Google
-        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this
-        ) { updateUI(null) }
-    }
-
-
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Log.e("TAG2", "firebaseAuthWithGoogle():" + acct.id!!)
+
         credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         mAuth!!.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
@@ -115,17 +94,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 }
     }
 
-
-    private fun updateUI(user : FirebaseUser?) :Unit {
+    fun updateUI(user : FirebaseUser?) {
 
         if(user!=null){
-            sign_in_button.visibility = View.GONE
-            sign_out_button.visibility = View.VISIBLE
-            disconnect_button.visibility = View.VISIBLE
+            startActivity(Intent(this@LoginActivity,MovieList::class.java))
+            finish()
         }else{
-            sign_in_button.visibility = View.VISIBLE
-            sign_out_button.visibility = View.GONE
-            disconnect_button.visibility = View.GONE
+
         }
     }
 
@@ -134,8 +109,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         when (i) {
             R.id.sign_in_button -> signIn()
-            R.id.sign_out_button -> signOut()
-            R.id.disconnect_button -> revokeAccess()
         }
     }
 }
