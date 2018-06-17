@@ -68,6 +68,7 @@ class MovieList : AppCompatActivity() {
             }
         }
 
+
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
