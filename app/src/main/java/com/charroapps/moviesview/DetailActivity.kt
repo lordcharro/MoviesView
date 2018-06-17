@@ -7,10 +7,20 @@ import com.charroapps.moviesview.Utilities.EXTRA_MOVIE
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
+import android.arch.persistence.room.Room
+import android.os.AsyncTask
+import android.widget.Toast
+import com.charroapps.moviesview.Data.MovieDataBase
+import com.charroapps.moviesview.Models.SavedMovie
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+
 
 class DetailActivity : AppCompatActivity() {
 
     lateinit var movie : Movies
+    lateinit var db : MovieDataBase
+    var newMovie = SavedMovie(0,"","")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,5 +39,31 @@ class DetailActivity : AppCompatActivity() {
                 .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(detail_image)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
+        //Get instance of the Database
+        db = Room.databaseBuilder(applicationContext,
+                MovieDataBase::class.java, "SavedMovie").build()
+
+        newMovie.description = movie.title
+        newMovie.title = movie.title
+
+        //Save the data to the database
+        accessDatabase()
+
+    }
+
+    fun accessDatabase(){
+        doAsync {
+            db.SavedMovieDAO().insert(newMovie)
+            var newElement = db.SavedMovieDAO().getAll()
+            uiThread {
+                Toast.makeText(this@DetailActivity, "Database: "+newElement[0].title, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
