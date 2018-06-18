@@ -47,7 +47,6 @@ class MovieList : AppCompatActivity() {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build()
         mGoogleApiClient.connect()
-        super.onStart()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,8 +66,6 @@ class MovieList : AppCompatActivity() {
                 finish()
             }
         }
-
-
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
@@ -130,7 +127,8 @@ class MovieList : AppCompatActivity() {
             true
         }
         R.id.action_history -> {
-
+            val mHistoryIntent = Intent(this@MovieList, HistoryListActivity::class.java)
+            startActivity(mHistoryIntent)
             true
         }
         else -> {
