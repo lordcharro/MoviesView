@@ -8,8 +8,6 @@ import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.arch.persistence.room.Room
-import android.os.AsyncTask
-import android.widget.Toast
 import com.charroapps.moviesview.Data.MovieDataBase
 import com.charroapps.moviesview.Models.SavedMovie
 import org.jetbrains.anko.doAsync
@@ -49,7 +47,7 @@ class DetailActivity : AppCompatActivity() {
         db = Room.databaseBuilder(applicationContext,
                 MovieDataBase::class.java, "SavedMovie").build()
 
-        newMovie.description = movie.title
+        newMovie.description = movie.overview
         newMovie.title = movie.title
 
         //Save the data to the database
@@ -62,7 +60,6 @@ class DetailActivity : AppCompatActivity() {
             db.SavedMovieDAO().insert(newMovie)
             var newElement = db.SavedMovieDAO().getAll()
             uiThread {
-                Toast.makeText(this@DetailActivity, "Database: "+newElement[0].title, Toast.LENGTH_SHORT).show()
             }
         }
     }
