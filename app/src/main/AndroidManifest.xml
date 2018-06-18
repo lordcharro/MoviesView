@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".MovieList"/>
         <activity android:name=".DetailActivity"/>
+        <activity android:name="HistoryDetailActivity"/>
+        <activity android:name="HistoryListActivity"/>
 
 
     </application>
