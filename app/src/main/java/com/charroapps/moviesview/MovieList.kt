@@ -22,6 +22,7 @@ import com.charroapps.moviesview.Utilities.EXTRA_MOVIE
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.charroapps.moviesview.Utilities.KEY_RECYCLER_STATE
 
 
 class MovieList : AppCompatActivity() {
@@ -31,7 +32,26 @@ class MovieList : AppCompatActivity() {
     lateinit var mAuth: FirebaseAuth
     lateinit var mAuthListener : FirebaseAuth.AuthStateListener
     lateinit var mGoogleApiClient : GoogleApiClient
+    lateinit var mLayoutManager : LinearLayoutManager
+    var results : Result? = null
 
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        //Saved the results list in case of screen rotation, move away from activity...
+        outState?.putParcelable(KEY_RECYCLER_STATE, results)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        //The activity is rebuild, so lets get the previously state
+        if(savedInstanceState != null){
+            results = savedInstanceState.getParcelable(KEY_RECYCLER_STATE)
+            results?.results?.let { generateDataList(it) }
+        }
+    }
 
     override fun onStart() {
         super.onStart()
@@ -48,7 +68,7 @@ class MovieList : AppCompatActivity() {
                 .build()
         mGoogleApiClient.connect()
     }
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)
@@ -66,6 +86,8 @@ class MovieList : AppCompatActivity() {
                 finish()
             }
         }
+        mLayoutManager = LinearLayoutManager(this@MovieList)
+
     }
 
     /*Method to generate List of data using RecyclerView with custom adapter*/
@@ -77,8 +99,8 @@ class MovieList : AppCompatActivity() {
             mdetailIntent.putExtra(EXTRA_MOVIE, movies)
             startActivity(mdetailIntent)
         }
-        val layoutManager = LinearLayoutManager(this@MovieList)
-        movieRecView.setLayoutManager(layoutManager)
+
+        movieRecView.setLayoutManager(mLayoutManager)
         movieRecView.setAdapter(adapter)
     }
 
@@ -96,7 +118,7 @@ class MovieList : AppCompatActivity() {
         call.enqueue(object : Callback<Result> {
             override fun onResponse(call: Call<Result>?, response: Response<Result>?) {
                 movieProgressbar.visibility = View.GONE
-                var results: Result? = response?.body()
+                results = response?.body()
                 results?.results?.let { generateDataList(it) }
             }
 
