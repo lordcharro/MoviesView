@@ -8,7 +8,35 @@ data class Result(
     val total_results: Int,
     val total_pages: Int,
     val results: List<Movies>
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.createTypedArrayList(Movies)) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(page)
+        parcel.writeInt(total_results)
+        parcel.writeInt(total_pages)
+        parcel.writeTypedList(results)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Result> {
+        override fun createFromParcel(parcel: Parcel): Result {
+            return Result(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Result?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
 
 data class Movies(
     val vote_count: Int,
