@@ -68,7 +68,7 @@ class MovieList : AppCompatActivity() {
                 .build()
         mGoogleApiClient.connect()
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)
