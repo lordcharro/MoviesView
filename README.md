@@ -24,3 +24,11 @@ Login and logout with Google account using the firebase platform, The user searc
 
 + Save the movie image in the database using BLOB data
 + Verify for duplicates in the database on the inserting moment
+
+## Screenshots
+
+![Listview](screenshots/01_listview.png)
+![Detail](screenshots/02_detail.png)
+![Menu](screenshots/03_menu.png)
+![Database](screenshots/04_database.png)
+![Login](screenshots/05_login.png)
